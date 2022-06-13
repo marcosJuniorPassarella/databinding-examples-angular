@@ -1,4 +1,4 @@
-import { AfterViewInit } from "@angular/core";
+import { AfterViewInit, ContentChild } from "@angular/core";
 import {
   AfterContentInit,
   Component,
@@ -18,7 +18,13 @@ import {
   styleUrls: ["./server-element.component.css"],
 })
 export class ServerElementComponent
-  implements OnInit, OnChanges, DoCheck, AfterViewInit, OnDestroy
+  implements
+    OnInit,
+    OnChanges,
+    DoCheck,
+    AfterViewInit,
+    AfterContentInit,
+    OnDestroy
 {
   @Input("srvElement") element!: {
     type: string;
@@ -27,6 +33,7 @@ export class ServerElementComponent
   };
   @Input() name: string;
   @ViewChild("heading") header: ElementRef;
+  @ContentChild("contentParagraph") contentChildParagraph: ElementRef;
 
   ngOnInit(): void {
     console.log("OnInit chamado");
@@ -39,6 +46,10 @@ export class ServerElementComponent
 
   ngDoCheck(): void {
     console.log("do check called");
+  }
+
+  ngAfterContentInit(): void {
+    console.log(this.contentChildParagraph.nativeElement.textContent);
   }
 
   ngAfterViewInit(): void {
